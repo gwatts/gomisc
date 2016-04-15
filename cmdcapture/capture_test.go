@@ -72,28 +72,28 @@ stderr2
 stdout partial stdout complete
 `
 
-	if result := string(c.Stdout()); result != outexp {
+	if result := c.Stdout(); result != outexp {
 		t.Errorf("stout mismatch expected=%q actual=%q", outexp, result)
 	}
 
-	if result := string(c.Stderr()); result != errexp {
+	if result := c.Stderr(); result != errexp {
 		t.Errorf("sterr mismatch expected=%q actual=%q", errexp, result)
 	}
 
-	if result := string(c.Combined()); result != mergeexp {
+	if result := c.Combined(); result != mergeexp {
 		t.Errorf("merged mismatch expected=%q actual=%q", mergeexp, result)
 	}
 
 	c.Flush()
 	outexp += "stdout next partial"
-	if result := string(c.Stdout()); result != outexp {
+	if result := c.Stdout(); result != outexp {
 		t.Errorf("stout mismatch expected=%q actual=%q", outexp, result)
 	}
 
 	mergeexp += `stdout next partial
 stderr partial
 `
-	if result := string(c.Combined()); result != mergeexp {
+	if result := c.Combined(); result != mergeexp {
 		t.Errorf("merged mismatch expected=%q actual=%q", mergeexp, result)
 	}
 }

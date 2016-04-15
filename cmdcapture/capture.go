@@ -75,14 +75,14 @@ func (c *Capture) ErrWriter() io.Writer {
 
 // Stdout returns all of the text written to stdout so far, not including
 // any partial lines unless Close or Flush has been called.
-func (c *Capture) Stdout() []byte {
-	return c.blockData(Stdout)
+func (c *Capture) Stdout() string {
+	return string(c.blockData(Stdout))
 }
 
 // Stderr returns all of the text written to stderr so far, not including
 // any partial lines unless Close or Flush has been called.
-func (c *Capture) Stderr() []byte {
-	return c.blockData(Stderr)
+func (c *Capture) Stderr() string {
+	return string(c.blockData(Stderr))
 }
 
 // Combined returns all of the text written to both stdout and stderr so far,
@@ -90,7 +90,8 @@ func (c *Capture) Stderr() []byte {
 //
 // If Flush has been called then a newline will be added to the end of each
 // partial block of text.
-func (c *Capture) Combined() (result []byte) {
+func (c *Capture) Combined() string {
+	var result []byte
 	c.m.Lock()
 	defer c.m.Unlock()
 	for _, b := range c.blocks {
@@ -99,7 +100,7 @@ func (c *Capture) Combined() (result []byte) {
 			result = append(result, '\n')
 		}
 	}
-	return result
+	return string(result)
 }
 
 // Blocks returns all of the text blocks written to either stdout or stderr
